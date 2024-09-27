@@ -1,0 +1,11 @@
+fire
+opencv-python
+numpy==1.26.4
+websockets
+torch==2.1.0
+diffusers
+streamdiffusion
+Pillow
+torchvision==0.16.0
+websockets
+git+https://github.com/hkn-g/StreamDiffusion.git@sdxl
