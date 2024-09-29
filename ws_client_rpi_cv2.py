@@ -28,6 +28,7 @@ async def capture_and_send(
         picam2.configure(
             picam2.create_preview_configuration(main={"size": (1400, 1000)})
         )
+        print("Starting picamera2...")
         picam2.start()
 
         # Setup cv2 window

@@ -5,3 +5,11 @@ python ws_server.py --base_model_path "digiplay/GhostMix" --acceleration "tensor
 ```
 python ws_client.py --prompt "masterpiece, best quality, solo, ((Red Retro Glitch)), dark, techno, Retro Glitch, a man with a head made of many different colored balls "
 ```
+
+For pi:
+````
+sudo apt install libcamera-dev
+pip install rpi-libcamera
+pip install rpi-kms
+pip install picamera2
+````
