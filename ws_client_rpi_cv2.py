@@ -93,14 +93,24 @@ async def capture_and_send(
             source = cv2.flip(source, 1)
 
             # Crop to screen aspect ratio and resize
-            crop_size = min(screen_width, screen_height)
-            source = source[
-                source.shape[0] // 2 - crop_size // 2 : source.shape[0] // 2 + crop_size // 2,
-                source.shape[1] // 2 - crop_size // 2 : source.shape[1] // 2 + crop_size // 2,
-            ]
-            source = cv2.resize(source, dsize=(screen_width, screen_height))
+            aspect_ratio = screen_width / screen_height
+            source_aspect_ratio = source.shape[1] / source.shape[0]
 
-            
+            if source_aspect_ratio > aspect_ratio:
+                # Crop width
+                crop_width = int(source.shape[0] * aspect_ratio)
+                crop_offset = (source.shape[1] - crop_width) // 2
+                source = source[:, crop_offset : crop_offset + crop_width]
+            else:
+                # Crop height
+                crop_height = int(source.shape[1] / aspect_ratio)
+                crop_offset = (source.shape[0] - crop_height) // 2
+                source = source[crop_offset : crop_offset + crop_height, :]
+            source = cv2.resize(
+                source, dsize=(screen_width, screen_height), interpolation=cv2.INTER_CUBIC
+            )
+
+
 
             cv2.imshow("image", source)
 
