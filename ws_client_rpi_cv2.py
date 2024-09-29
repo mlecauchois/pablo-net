@@ -77,7 +77,8 @@ async def capture_and_send(
             frame = cv2.resize(frame, (image_size, image_size))
 
             # Encode frame
-            _, buffer = cv2.imencode(".jpg", frame)
+            compression_params = [int(cv2.IMWRITE_JPEG_QUALITY), compression]
+            _, buffer = cv2.imencode(".jpg", frame, compression_params)
             jpg_as_text = base64.b64encode(buffer).decode("utf-8")
 
             # Send to server
@@ -109,8 +110,6 @@ async def capture_and_send(
             source = cv2.resize(
                 source, dsize=(screen_width, screen_height), interpolation=cv2.INTER_CUBIC
             )
-
-
 
             cv2.imshow("image", source)
 
