@@ -114,7 +114,7 @@ async def process_image(
             canny_img = cv2.Canny(blur_img, 100, 200)
             canny_img = cv2.cvtColor(canny_img, cv2.COLOR_GRAY2BGR)
             # Change black to blue
-            canny_img[np.where((canny_img == [0, 0, 0]).all(axis=2))] = [0, 0, 255]
+            canny_img[np.where((canny_img == [0, 0, 0]).all(axis=2))] = [255, 0, 0]
             # Add
             img = cv2.addWeighted(img, 0.8, canny_img, 0.2, 0)
         elif preprocessing == "blur":
