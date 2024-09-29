@@ -36,6 +36,12 @@ async def capture_and_send(
         if fullscreen:
             cv2.setWindowProperty("image", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
 
+        # Shadow tk to get screen size
+        root = tk.Tk()
+        screen_width = root.winfo_screenwidth()
+        screen_height = root.winfo_screenheight()
+        root.destroy()
+
         print("Connected to server...")
 
         # Send prompt to server as json
@@ -86,17 +92,15 @@ async def capture_and_send(
             # Flip
             source = cv2.flip(source, 1)
 
-            # Crop the image to aspect ratio of screen and resize to screen size
-            h, w, _ = source.shape
+            # Crop to screen aspect ratio and resize
+            crop_size = min(screen_width, screen_height)
+            source = source[
+                source.shape[0] // 2 - crop_size // 2 : source.shape[0] // 2 + crop_size // 2,
+                source.shape[1] // 2 - crop_size // 2 : source.shape[1] // 2 + crop_size // 2,
+            ]
+            source = cv2.resize(source, dsize=(screen_width, screen_height))
 
-            if h > w:
-                source = source[h // 2 - w // 2 : h // 2 + w // 2, :]
-            else:
-                source = source[:, w // 2 - h // 2 : w // 2 + h // 2]
-
-            source = cv2.resize(
-                source, dsize=(h, w), interpolation=cv2.INTER_CUBIC
-            )
+            
 
             cv2.imshow("image", source)
 
